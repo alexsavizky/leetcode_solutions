@@ -19,14 +19,21 @@ def help_recursion(routes, source, target, counter):
             return counter
         if source in routes[i]:
             source_list.append(routes[i])
+    results = []
     for i in source_list:
         new_routes = all_combination_from_source(i, routes)
-        return help_recursion(new_routes, source, target, counter + 1)
+        result = help_recursion(new_routes, source, target, counter + 1)
+        if result is not None:
+            results.append(result)
+    if results:
+        return min(results)
+    else:
+        return None
 
 
 def all_combination_from_source(source, routes):
     new_comb = []
-    no_change = routes
+    no_change = routes.copy()
     no_change.remove(source)
     for i in routes:
         if set(i) & set(source) and i != source:
